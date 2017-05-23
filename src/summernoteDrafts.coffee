@@ -44,6 +44,16 @@
       @initialize : ->
         $container = options.dialogsInBody ? $(document.body) : $editor
         body = '<div class="form-group">' + '<label>' + lang.provideName + '</label>' + '<input class="note-link-imgUrl form-control" type="text" /></div>'
-        footer = '<button href="#" class="btn btn-primary note-link-btn">' + lang.save + '</button>';
+        footer = '<button href="#" class="btn btn-primary note-link-btn">' + lang.save + '</button>'
+
+        @$dialog = ui.dialog
+          className: 'link-dialog'
+          title: lang.save
+          fade: options.dialogsFade
+          body: body
+          footer: footer
+
+        @$dialog.render
+        @$dialog.appendTo $container
 
 }));
