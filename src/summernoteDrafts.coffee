@@ -128,11 +128,16 @@
       $selectedDraft = @$dialog.find '.note-draft'
         .click (e) =>
           e.preventDefault
+          div = document.createElement 'div'
           key = $ this
             .data 'draft'
           data = drafts[key]
 
-          # if no data shomw some error or something
+          if data
+            div.innerHTML = data
+            context.invoke('editor.insertNode', div)
+
+          # if no data show some error or something
           false
 
     getDrafts = () ->
