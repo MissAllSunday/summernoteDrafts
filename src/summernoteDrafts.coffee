@@ -1,20 +1,16 @@
-(function (factory) {
-    # global define
-    if (typeof define === 'function' && define.amd) {
-        # AMD. Register as an anonymous module.
-        define(['jquery'], factory);
-    } else if (typeof module === 'object' && module.exports) {
-        # Node/CommonJS
-        module.exports = factory(require('jquery'));
-    } else {
-        # Browser globals
-        factory(window.jQuery);
-    }
-}(function ($) {
+((factory) ->
+  if typeof define == 'function' and define.amd
+    define [ 'jquery' ], factory
+  else if typeof module == 'object' and module.exports
+    module.exports = factory(require('jquery'))
+  else
+    factory window.jQuery
+  return
+) ($) ->
 
   $.extend $.summernote.options,
   sDrafts:
-    storePrefix:'sDrafts',
+    storePrefix:'sDrafts'
 
   $.extend $.summernote.lang,
   'en-US':
@@ -30,7 +26,7 @@
       options = context.options
       lang = options.langInfo.sDrafts
       $editor = context.layoutInfo.editor
-      drafts = store.get(options.storePrefix)
+      drafts = store.get options.storePrefix
 
       context.memo 'button.sDraftsSave', () ->
         button = ui.button
@@ -39,11 +35,11 @@
             context.invoke 'sDrafts.show'
             false
 
-        button.render();
+        button.render
 
-      @initialize : ->
-        $container = options.dialogsInBody ? $(document.body) : $editor
-        body = '<div class="form-group">' + '<label>' + lang.provideName + '</label>' + '<input class="note-link-imgUrl form-control" type="text" /></div>'
+      initialize : () ->
+        $container = if options.dialogsInBody then $(document.body) else $editor
+        body = '<div class="form-group">' + '<label>' + lang.provideName + '</label>' + '<input class="note-draftName form-control" type="text" /></div>'
         footer = '<button href="#" class="btn btn-primary note-link-btn">' + lang.save + '</button>'
 
         @$dialog = ui.dialog
@@ -55,5 +51,23 @@
 
         @$dialog.render
         @$dialog.appendTo $container
+        return
 
-}));
+      destroy = () ->
+        ui.hideDialog @$dialog
+          .remove
+        return
+
+      show = () ->
+        ui.showDialog(@$dialog);
+        draftName = @$dialog.find '.note-draftName'
+          .val
+        $saveBtn = @$dialog.find '.note-link-btn'
+          .click (e) =>
+            e.preventDefault
+            @saveDraft draftName
+            false
+
+      saveDraft = (name) ->
+
+      return
