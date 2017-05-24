@@ -69,5 +69,14 @@
             false
 
       saveDraft = (name) ->
+        isoDate = new Date
+          .toISOString
+        name ?= isoDate
+        store.set options.sDrafts.storePrefix + '-' + name,
+          name: name
+          sDate: isoDate
+          body : context.code
+
+        return
 
       return
