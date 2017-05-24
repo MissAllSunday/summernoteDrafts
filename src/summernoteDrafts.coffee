@@ -33,10 +33,9 @@
             e.preventDefault()
             context.invoke 'sDraftsSave.show'
             false
-
         button.render
 
-      initialize : () ->
+      initialize = ->
         $container = if options.dialogsInBody then $(document.body) else $editor
         body = '<div class="form-group">' + '<label>' + lang.provideName + '</label>' + '<input class="note-draftName form-control" type="text" /></div>'
         footer = '<button href="#" class="btn btn-primary note-link-btn">' + lang.save + '</button>'
@@ -52,12 +51,12 @@
         @$dialog.appendTo $container
         return
 
-      destroy = () ->
+      destroy = ->
         ui.hideDialog @$dialog
           .remove
         return
 
-      show = () ->
+      show = ->
         ui.showDialog @$dialog
         draftName = @$dialog.find '.note-draftName'
           .val
@@ -77,9 +76,8 @@
           body : context.code
         ui.hideDialog @$dialog
 
-        return
-
-      return
+        false
+      false
 
   $.extend $.summernote.plugins,
   'sDraftsLoad' : (context) ->
@@ -126,7 +124,7 @@
     show = () ->
       ui.showDialog @$dialog
       $selectedDraft = @$dialog.find '.note-draft'
-        .click (e) =>
+        .click (e) ->
           e.preventDefault
           div = document.createElement 'div'
           key = $ this
@@ -134,7 +132,7 @@
           data = drafts[key]
 
           if data
-            div.innerHTML = data
+            div.innerHTML = data.body
             context.invoke('editor.insertNode', div)
 
           # if no data show some error or something
