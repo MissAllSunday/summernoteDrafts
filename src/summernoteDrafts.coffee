@@ -116,12 +116,12 @@
       @$dialog.appendTo $container
       return
 
-    destroy = () ->
+    destroy = ->
       ui.hideDialog @$dialog
         .remove
       return
 
-    show = () ->
+    show = ->
       ui.showDialog @$dialog
       $selectedDraft = @$dialog.find '.note-draft'
         .click (e) ->
@@ -138,10 +138,10 @@
           # if no data show some error or something
           false
 
-    getDrafts = () ->
+    getDrafts = ->
       drafts = []
       store.each (value, key) ->
         if key.indexOf(options.sDrafts.storePrefix) >= 0
           drafts[key] = value
 
-      return drafts
+      drafts
