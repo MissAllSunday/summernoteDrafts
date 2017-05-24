@@ -35,7 +35,7 @@
             false
         button.render
 
-      initialize = ->
+      @initialize = =>
         $container = if options.dialogsInBody then $(document.body) else $editor
         body = '<div class="form-group">' + '<label>' + lang.provideName + '</label>' + '<input class="note-draftName form-control" type="text" /></div>'
         footer = '<button href="#" class="btn btn-primary note-link-btn">' + lang.save + '</button>'
@@ -47,16 +47,16 @@
           body: body
           footer: footer
 
-        @$dialog.render
+        @$dialog.render()
         @$dialog.appendTo $container
         return
 
-      destroy = ->
+      @destroy = ->
         ui.hideDialog @$dialog
-          .remove
+          .remove()
         return
 
-      show = ->
+      @show = ->
         ui.showDialog @$dialog
         draftName = @$dialog.find '.note-draftName'
           .val
@@ -66,7 +66,7 @@
             @saveDraft draftName
             false
 
-      saveDraft = (name) ->
+      @saveDraft = (name) ->
         isoDate = new Date
           .toISOString
         name ?= isoDate
@@ -76,8 +76,8 @@
           body : context.code
         ui.hideDialog @$dialog
 
-        false
-      false
+        return
+      return
 
   $.extend $.summernote.plugins,
   'sDraftsLoad' : (context) ->
@@ -101,47 +101,49 @@
 
       button.render
 
-    initialize : () ->
-      $container = if options.dialogsInBody then $(document.body) else $editor
-      body = '<div class="list-group">' + htmlList + '</div>'
+      @initialize =  ->
+        $container = if options.dialogsInBody then $(document.body) else $editor
+        body = '<div class="list-group">' + htmlList + '</div>'
 
-      @$dialog = ui.dialog
-        className: 'link-dialog'
-        title: lang.load
-        fade: options.dialogsFade
-        body: body
-        footer: ''
+        @$dialog = ui.dialog
+          className: 'link-dialog'
+          title: lang.load
+          fade: options.dialogsFade
+          body: body
+          footer: ''
 
-      @$dialog.render
-      @$dialog.appendTo $container
+        @$dialog.render()
+        @$dialog.appendTo $container
+        return
+
+      @destroy = ->
+        ui.hideDialog @$dialog
+          .remove()
+        return
+
+      @show = ->
+        ui.showDialog @$dialog
+        $selectedDraft = @$dialog.find '.note-draft'
+          .click (e) ->
+            e.preventDefault
+            div = document.createElement 'div'
+            key = $ this
+              .data 'draft'
+            data = drafts[key]
+
+            if data
+              div.innerHTML = data.body
+              context.invoke('editor.insertNode', div)
+
+            # if no data show some error or something
+            false
+          return
+
+      @getDrafts = ->
+        drafts = []
+        store.each (value, key) ->
+          if key.indexOf(options.sDrafts.storePrefix) >= 0
+            drafts[key] = value
+
+        drafts
       return
-
-    destroy = ->
-      ui.hideDialog @$dialog
-        .remove
-      return
-
-    show = ->
-      ui.showDialog @$dialog
-      $selectedDraft = @$dialog.find '.note-draft'
-        .click (e) ->
-          e.preventDefault
-          div = document.createElement 'div'
-          key = $ this
-            .data 'draft'
-          data = drafts[key]
-
-          if data
-            div.innerHTML = data.body
-            context.invoke('editor.insertNode', div)
-
-          # if no data show some error or something
-          false
-
-    getDrafts = ->
-      drafts = []
-      store.each (value, key) ->
-        if key.indexOf(options.sDrafts.storePrefix) >= 0
-          drafts[key] = value
-
-      drafts
