@@ -129,7 +129,7 @@
         title: lang.load
         fade: options.dialogsFade
         body: body
-        footer = footer).render().appendTo $container
+        footer: footer).render().appendTo $container
       return
 
     @destroy = =>
@@ -175,5 +175,18 @@
 
             else
               alert lang.noDraft
+
+      $deleteAllDrafts = @$dialog.find 'button.deleteAll'
+        .click (e) ->
+          if confirm lang.youSure
+            for key, draft of drafts
+              do ->
+                store.remove key
+
+            uiDialog = self.$dialog.find 'ul.list-group'
+              .hide 'slow', ->
+                $(this).remove()
+                return
+
       return
     return
