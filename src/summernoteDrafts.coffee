@@ -20,7 +20,10 @@
       provideName : 'Provide a name for this draft'
       saved : 'Draft was successfully saved'
       loaded: 'Draft was successfully loaded'
+      deleted: 'Draft was successfully deleted'
       noDraft : 'The selected draft couldn\'t be loaded, try again or select another one'
+      deleteDraft : 'delete'
+      youSure : 'Are you sure you want to do this?'
 
   $.extend $.summernote.plugins,
     'sDraftsSave' : (context) ->
@@ -96,7 +99,7 @@
 
     for key, draft of drafts
       do ->
-        htmlList += "<a href='#' class='list-group-item note-draft' data-draft='#{key}'> #{draft.name} <small>#{draft.sDate}</small></a>"
+        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{draft.name} - <small>#{draft.sDate}</a></small><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
 
     context.memo 'button.sDraftsLoad', () ->
       button = ui.button
@@ -111,7 +114,7 @@
 
     @initialize =  =>
       $container = if options.dialogsInBody then $(document.body) else $editor
-      body = "<div class='list-group'>#{htmlList}</div>"
+      body = "<h4>#{lang.select}</h4><ul class='list-group'>#{htmlList}</ul>"
 
       @$dialog = ui.dialog(
         className: 'link-dialog'
@@ -138,6 +141,7 @@
           if data
             div.innerHTML = data.body
             context.invoke('editor.insertNode', div)
+            alert lang.loaded
             @destroy
             @$dialog.remove()
 
@@ -146,4 +150,21 @@
           false
         return
       return
+      $deleteDraft = @$dialog.find 'a.delete-draft'
+        .click (e) ->
+          if confirm lang.youSure
+            key = $ this
+              .data 'draft'
+            data = drafts[key]
+
+            if data
+              store.remove key
+              self = $ this
+              self.hide 'slow', ->
+                self.remove()
+                alert lang.deleted
+                return
+
+            else
+              alert lang.noDraft
     return
