@@ -25,10 +25,27 @@ $('.summernote').summernote({
 $.extend($.summernote.options, {
   sDrafts: {
 	storePrefix: 'sDrafts'
+	dateFormat: null
+	saveIcon: null
+	loadIcon: null
   }
 });
 ```
 - storePrefix The unique name to help identify each saved draft
+- dateFormat a callback to format the date of each draft, accepts a single parameter, a date string in ISO format and should return a formatted date string.
+
+```javascript
+dateFormat: function(dateFormat){
+	// apply some pretty format to the date here
+
+	return dateFormat;
+};
+```
+
+By default the plugin shows a date in raw ISO format.
+
+- saveIcon An option to replace the default save text
+- loadIcon An option to replace the default load text
 
 ### Language strings
 
