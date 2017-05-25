@@ -38,7 +38,7 @@
 
       context.memo 'button.sDraftsSave', () ->
         button = ui.button
-          contents: lang.save
+          contents: if options.sDrafts.saveIcon and typeof options.sDrafts.saveIcon is 'string' then options.sDrafts.saveIcon else lang.save
           tooltip: lang.save
           click: (e) ->
             e.preventDefault()
@@ -104,13 +104,13 @@
 
     for key, draft of drafts
       do ->
-        fDate = if options.sDrafts.dateFormat and typeof options.sDrafts.dateFormat == 'function' then options.sDrafts.dateFormat(draft.sDate) else draft.sDate
+        fDate = if options.sDrafts.dateFormat and typeof options.sDrafts.dateFormat is 'function' then options.sDrafts.dateFormat(draft.sDate) else draft.sDate
         fName = draft.name.replace "#{options.sDrafts.storePrefix}-", ""
         htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{fName} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
 
     context.memo 'button.sDraftsLoad', () ->
       button = ui.button
-        contents: lang.load
+        contents: if options.sDrafts.loadIcon and typeof options.sDrafts.loadIcon is 'string' then options.sDrafts.loadIcon else lang.load
         tooltip: lang.load
         click: (e) ->
           e.preventDefault()
