@@ -19,6 +19,8 @@
       select : 'select the draft you want to load'
       provideName : 'Provide a name for this draft'
       saved : 'Draft was successfully saved'
+      loaded: 'Draft was successfully loaded'
+      noDraft : 'The selected draft couldn\'t be loaded, try again or select another one'
 
   $.extend $.summernote.plugins,
     'sDraftsSave' : (context) ->
@@ -136,8 +138,11 @@
           if data
             div.innerHTML = data.body
             context.invoke('editor.insertNode', div)
+            @destroy
+            @$dialog.remove()
 
-          # if no data show some error or something
+          else
+            alert lang.noDraft
           false
         return
       return
