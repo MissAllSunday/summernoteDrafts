@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Summernote</title>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+		<link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+		<script src="https://cdn.jsdelivr.net/store/2.5.1/store2.min.js"></script>
+		<script src="lib/summernoteDrafts.js"></script>
+	</head>
+	<body>
+		<div class="row">
+			<p></p>
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div id="summernote"></div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+
+		<script>
+		$(function() {
+			$('#summernote').summernote({
+				toolbar: [
+					['style', ['bold', 'italic', 'underline', 'clear']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+					['misc', ['sDraftsLoad', 'sDraftsSave']]
+				]
+			});
+		}(this));
+		</script>
+	</body>
+</html>
