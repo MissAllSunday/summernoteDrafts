@@ -148,8 +148,7 @@
           else
             alert lang.noDraft
           false
-        return
-      return
+
       $deleteDraft = @$dialog.find 'a.delete-draft'
         .click (e) ->
           if confirm lang.youSure
@@ -160,11 +159,11 @@
             if data
               store.remove key
               self = $ this
-              self.hide 'slow', ->
-                self.remove()
-                alert lang.deleted
+              self.parent().hide 'slow', ->
+                $(this).remove()
                 return
 
             else
               alert lang.noDraft
+      return
     return
