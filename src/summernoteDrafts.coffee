@@ -20,8 +20,9 @@
       provideName : 'Provide a name for this draft'
       saved : 'Draft was successfully saved'
       loaded: 'Draft was successfully loaded'
-      deleted: 'Draft was successfully deleted'
+      deleteAll: 'Delete all drafts'
       noDraft : 'The selected draft couldn\'t be loaded, try again or select another one'
+      nosavedDrafts : 'There aren\'t any drafts saved'
       deleteDraft : 'delete'
       youSure : 'Are you sure you want to do this?'
 
@@ -114,14 +115,15 @@
 
     @initialize =  =>
       $container = if options.dialogsInBody then $(document.body) else $editor
-      body = "<h4>#{lang.select}</h4><ul class='list-group'>#{htmlList}</ul>"
+      body = if htmlList.length then "<h4>#{lang.select}</h4><ul class='list-group'>#{htmlList}</ul>" else "<h4>#{lang.nosavedDrafts}</h4>"
+      footer = if htmlList.length then "<button href='#' class='btn btn-primary deleteAll'>#{lang.deleteAll}</button>" else ""
 
       @$dialog = ui.dialog(
         className: 'link-dialog'
         title: lang.load
         fade: options.dialogsFade
         body: body
-        footer: '').render().appendTo $container
+        footer = footer).render().appendTo $container
       return
 
     @destroy = =>
