@@ -61,6 +61,7 @@
 
       @destroy = =>
         ui.hideDialog @$dialog
+        @$dialog.remove()
         return
 
       @show = =>
@@ -84,7 +85,7 @@
           sDate: isoDate
           body : body
         alert lang.saved
-        ui.hideDialog @$dialog
+        @destroy()
 
         return
       return
@@ -104,7 +105,8 @@
     for key, draft of drafts
       do ->
         fDate = if options.sDrafts.dateFormat and typeof options.sDrafts.dateFormat == 'function' then options.sDrafts.dateFormat(draft.sDate) else draft.sDate
-        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{draft.name} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
+        fName = draft.name.replace "#{options.sDrafts.storePrefix}-", ""
+        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{fName} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
 
     context.memo 'button.sDraftsLoad', () ->
       button = ui.button
@@ -132,10 +134,12 @@
 
     @destroy = =>
       ui.hideDialog @$dialog
+      @$dialog.remove()
       return
 
     @show = =>
       ui.showDialog @$dialog
+      self = @
       $selectedDraft = @$dialog.find '.note-draft'
         .click (e) ->
           e.preventDefault
@@ -152,8 +156,7 @@
           else
             alert lang.noDraft
 
-          @destroy()
-          @$dialog.remove()
+          self.destroy()
           false
 
       $deleteDraft = @$dialog.find 'a.delete-draft'
