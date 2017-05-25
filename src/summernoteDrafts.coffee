@@ -11,6 +11,9 @@
   $.extend $.summernote.options,
   sDrafts:
     storePrefix:'sDrafts'
+    dateFormat: null
+    saveIcon: null
+    loadIcon: null
 
   $.extend $.summernote.lang['en-US'],
     sDrafts :
@@ -100,7 +103,8 @@
 
     for key, draft of drafts
       do ->
-        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{draft.name} - <small>#{draft.sDate}</a></small><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
+        fDate = if options.sDrafts.dateFormat and typeof options.sDrafts.dateFormat == 'function' then options.sDrafts.dateFormat(draft.sDate) else draft.sDate
+        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{draft.name} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
 
     context.memo 'button.sDraftsLoad', () ->
       button = ui.button
@@ -144,11 +148,12 @@
             div.innerHTML = data.body
             context.invoke('editor.insertNode', div)
             alert lang.loaded
-            @destroy
-            @$dialog.remove()
 
           else
             alert lang.noDraft
+
+          @destroy()
+          @$dialog.remove()
           false
 
       $deleteDraft = @$dialog.find 'a.delete-draft'
