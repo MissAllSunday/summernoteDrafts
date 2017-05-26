@@ -66,3 +66,7 @@ $.extend($.summernote.lang['en-US'], {
   }
 });
 ```
+
+### License
+
+Released under the [MIT](https://opensource.org/licenses/MIT) license

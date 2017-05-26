@@ -1,3 +1,11 @@
+###
+ * @package summernoteDrafts.js
+ * @version 1.0
+ * @author Jessica González <suki@missallsunday.com>
+ * @copyright Copyright (c) 2017, Jessica González
+ * @license https://opensource.org/licenses/MIT MIT
+###
+
 ((factory) ->
   if typeof define == 'function' and define.amd
     define [ 'jquery' ], factory
