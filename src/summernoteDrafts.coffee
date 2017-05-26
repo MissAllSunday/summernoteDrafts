@@ -178,6 +178,7 @@
 
       $deleteAllDrafts = @$dialog.find 'button.deleteAll'
         .click (e) ->
+          selfButton = $ this
           if confirm lang.youSure
             for key, draft of drafts
               do ->
@@ -185,7 +186,8 @@
 
             uiDialog = self.$dialog.find 'ul.list-group'
               .hide 'slow', ->
-                $(this).remove()
+                $(this).replaceWith "<h4>#{lang.nosavedDrafts}</h4>"
+                selfButton.hide 'slow'
                 return
 
       return
