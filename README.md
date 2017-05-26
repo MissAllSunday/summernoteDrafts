@@ -7,9 +7,9 @@ A summernote plugin for saving and retrieving drafts.
 
 ### Setup
 
-requires [store.js](https://github.com/marcuswestin/store.js/) version 2.0 or higher  to store drafts.
+requires [store.js](https://github.com/marcuswestin/store.js/) version 2.0 or higher to save/get drafts. See the demo code to get a CDN url for it.
 
-Append both sDraftsLoad and sDraftsSave buttons to your summernote toolbar:
+Include lib/summernoteDrafts.js and append both sDraftsLoad and sDraftsSave buttons to your summernote toolbar:
 
 ```javascript
 $('.summernote').summernote({

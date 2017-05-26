@@ -78,9 +78,9 @@
         isoDate = new Date()
           .toISOString()
         name ?= isoDate
-        name = options.sDrafts.storePrefix + '-' + name
+        keyName = options.sDrafts.storePrefix + '-' + name
         body = context.code()
-        store.set name,
+        store.set keyName,
           name: name
           sDate: isoDate
           body : body
@@ -105,8 +105,7 @@
     for key, draft of drafts
       do ->
         fDate = if options.sDrafts.dateFormat and typeof options.sDrafts.dateFormat is 'function' then options.sDrafts.dateFormat(draft.sDate) else draft.sDate
-        fName = draft.name.replace "#{options.sDrafts.storePrefix}-", ""
-        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{fName} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
+        htmlList += "<li class='list-group-item'><a href='#' class='note-draft' data-draft='#{key}'>#{draft.name} - <small>#{fDate}</small></a><a href='#' class='label label-danger pull-right delete-draft' data-draft='#{key}'>#{lang.deleteDraft}</a></li>"
 
     context.memo 'button.sDraftsLoad', () ->
       button = ui.button
