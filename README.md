@@ -2,7 +2,7 @@
 
 A summernote plugin for saving and retrieving drafts.
 
-[Demo](https://cdn.rawgit.com/MissAllSunday/summernoteDrafts/5f4786b1/demo.html)
+[Demo](https://cdn.rawgit.com/MissAllSunday/summernoteDrafts/b7440dd3/demo.html)
 
 
 ### Setup
